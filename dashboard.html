@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahmoud &amp; Shrouk — Guest Messages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ivory:       #FDFBF7;
+      --ivory-warm:  #FAF6F0;
+      --ivory-cream: #F4EFE6;
+      --champagne:   #EFE7DA;
+      --espresso:    #2C2825;
+      --charcoal:    #4A443E;
+      --muted:       #7E766D;
+      --gold-light:  #DFBA73;
+      --gold:        #C5A059;
+      --gold-bright: #D4AF37;
+      --gold-dark:   #997736;
+      --border:      #E8DFC9;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ivory-warm);
+      color: var(--espresso);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ───────────────────────────────────── */
+    .site-header {
+      background: linear-gradient(135deg, #2C2825 0%, #3d3530 60%, #2C2825 100%);
+      padding: 48px 32px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(197,160,89,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header-ornament {
+      font-family: 'Allura', cursive;
+      font-size: 3.5rem;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 12px rgba(197,160,89,0.35);
+    }
+    .header-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 14px;
+    }
+    .header-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 auto 0;
+    }
+    .header-divider span.line {
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .header-divider span.line:last-child {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .header-divider span.gem {
+      color: var(--gold-light);
+      font-size: 14px;
+    }
+
+    /* ── STATS BAR ────────────────────────────────── */
+    .stats-bar {
+      background: var(--ivory);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      color: var(--espresso);
+      line-height: 1;
+    }
+    .stat-number.gold { color: var(--gold-dark); }
+    .stat-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .stat-sep {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    /* ── TOOLBAR ──────────────────────────────────── */
+    .toolbar {
+      max-width: 900px;
+      margin: 28px auto 0;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--espresso);
+      letter-spacing: 0.05em;
+    }
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-print:hover {
+      background: var(--gold);
+      color: white;
+      box-shadow: 0 4px 16px rgba(197,160,89,0.3);
+    }
+    .btn-print svg { width: 14px; height: 14px; }
+
+    /* ── CARDS GRID (MASONRY) ─────────────────────── */
+    .cards-grid {
+      max-width: 1000px;
+      margin: 30px auto 60px;
+      padding: 0 24px;
+      column-count: 3;
+      column-gap: 24px;
+    }
+    @media (max-width: 900px) { .cards-grid { column-count: 2; } }
+    @media (max-width: 600px) { .cards-grid { column-count: 1; } }
+
+    /* Individual card */
+    .msg-card {
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 30px rgba(90,70,45,0.06);
+      break-inside: avoid;
+      margin-bottom: 24px;
+      display: inline-block;
+      width: 100%;
+    }
+    .msg-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--gold-light), var(--gold), var(--gold-dark));
+      border-radius: 16px 16px 0 0;
+    }
+    .msg-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(90,70,45,0.13);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .card-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(153,119,54,0.35);
+    }
+    .card-badge {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .badge-yes {
+      background: rgba(197,160,89,0.15);
+      color: var(--gold-dark);
+      border: 1px solid rgba(197,160,89,0.4);
+    }
+    .badge-no {
+      background: rgba(90,80,70,0.08);
+      color: var(--muted);
+      border: 1px solid rgba(90,80,70,0.2);
+    }
+
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--espresso);
+      margin-bottom: 2px;
+      letter-spacing: 0.02em;
+    }
+    .card-date {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 12px;
+    }
+    .card-divider {
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+    .card-message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--charcoal);
+      line-height: 1.75;
+      text-align: justify;
+      word-break: break-word;
+    }
+    .card-quote-mark {
+      font-family: 'Allura', cursive;
+      font-size: 2.5rem;
+      color: var(--gold-light);
+      line-height: 0;
+      vertical-align: -0.6em;
+      margin-inline-end: 2px;
+      opacity: 0.7;
+    }
+
+    /* ── EMPTY / LOADING STATES ───────────────────── */
+    .state-box {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .state-icon {
+      font-family: 'Allura', cursive;
+      font-size: 3rem;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+    }
+    .state-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+    .spinner {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    .site-footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ═══════════════════════════════════════════════
+       PRINT STYLES — clean, frameable keepsake
+    ═══════════════════════════════════════════════ */
+    @media print {
+      @page {
+        size: A4;
+        margin: 18mm 20mm;
+      }
+
+      body {
+        background: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .site-header {
+        background: #2C2825 !important;
+        padding: 28px 20px 24px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        page-break-after: avoid;
+      }
+
+      .stats-bar {
+        border-bottom: 1px solid #E8DFC9;
+        padding: 14px 0;
+        page-break-after: avoid;
+      }
+
+      .toolbar {
+        padding: 12px 0 8px;
+        page-break-after: avoid;
+      }
+      .btn-print { display: none !important; }
+
+      .cards-grid {
+        margin: 10px 0 20px;
+        padding: 0;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .msg-card {
+        border: 1px solid #E8DFC9 !important;
+        border-radius: 10px;
+        padding: 16px 14px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        transform: none !important;
+      }
+      .msg-card::before {
+        background: linear-gradient(to right, #DFBA73, #C5A059, #997736) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .card-avatar {
+        background: linear-gradient(135deg, #DFBA73, #997736) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .badge-yes {
+        background: rgba(197,160,89,0.15) !important;
+        border-color: rgba(197,160,89,0.4) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .site-footer {
+        border-top: 1px solid #E8DFC9;
+        margin-top: 16px;
+        page-break-before: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-ornament">Mahmoud &amp; Shrouk</div>
+    <p class="header-subtitle">6 / 10 / 2026 &nbsp;·&nbsp; Life Eye Resort – Sea Garden</p>
+    <div class="header-divider">
+      <span class="line"></span>
+      <span class="gem">❦</span>
+      <span class="line"></span>
+    </div>
+  </header>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item">
+      <div class="stat-number" id="statTotal">—</div>
+      <div class="stat-label">Total Responses</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-number gold" id="statAttending">—</div>
+      <div class="stat-label">Attending</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-number" id="statDeclined">—</div>
+      <div class="stat-label">Cannot Attend</div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <h1 class="section-title">Guest Messages</h1>
+    <button class="btn-print" onclick="window.print()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+      </svg>
+      Print / Save PDF
+    </button>
+  </div>
+
+  <!-- MESSAGES AREA -->
+  <div id="messagesArea">
+    <div class="state-box" id="loadingState">
+      <div class="spinner"></div>
+      <div class="state-text">Loading messages…</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    Mahmoud &amp; Shrouk &nbsp;·&nbsp; 6 / 10 / 2026 &nbsp;·&nbsp; With Love
+  </footer>
+
+  <!-- Supabase -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const supabase = createClient(
+      'https://eoksgtbifexilmpfewpa.supabase.co',
+      'sb_publishable_h1drJwBq2F8xtoXj18WVAg_nIGVHTKQ'
+    );
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function initials(name) {
+      return (name || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    }
+
+    function buildCard(msg) {
+      const isYes = msg.attending === 'yes';
+      return `
+        <div class="msg-card">
+          <div class="card-top">
+            <div class="card-avatar">${initials(msg.name)}</div>
+            <span class="card-badge ${isYes ? 'badge-yes' : 'badge-no'}">
+              ${isYes ? 'Attending ✓' : 'Regrets'}
+            </span>
+          </div>
+          <div class="card-name">${msg.name}</div>
+          <div class="card-date">${formatDate(msg.created_at)}</div>
+          <div class="card-divider"></div>
+          <p class="card-message">
+            <span class="card-quote-mark">"</span>${msg.message}"
+          </p>
+        </div>`;
+    }
+
+    async function load() {
+      const { data, error } = await supabase
+        .from('guest_messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      const area = document.getElementById('messagesArea');
+
+      if (error) {
+        area.innerHTML = `<div class="state-box"><div class="state-text">Could not load messages. Check your connection.</div></div>`;
+        return;
+      }
+
+      // Update stats
+      const total     = data.length;
+      const attending = data.filter(m => m.attending === 'yes').length;
+      const declined  = data.filter(m => m.attending === 'no').length;
+      document.getElementById('statTotal').textContent     = total;
+      document.getElementById('statAttending').textContent = attending;
+      document.getElementById('statDeclined').textContent  = declined;
+
+      if (total === 0) {
+        area.innerHTML = `
+          <div class="state-box">
+            <div class="state-icon">✉</div>
+            <div class="state-text">No messages yet — check back soon!</div>
+          </div>`;
+        return;
+      }
+
+      area.innerHTML = `<div class="cards-grid">${data.map(buildCard).join('')}</div>`;
+    }
+
+    load();
+  </script>
+</body>
+</html>
