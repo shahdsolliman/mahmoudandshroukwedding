@@ -1,0 +1,711 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Mahmoud &amp; Shrouk — Wedding Invitation</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Allura&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Montserrat:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: {
+              DEFAULT: '#FDFBF7',
+              warm: '#FAF6F0',
+              cream: '#F5EFE6',
+            },
+            blush: '#F9F1EA',
+            champagne: '#EFE7DA',
+            espresso: '#2C2825',
+            charcoal: '#4A443E',
+            warmMuted: '#847970',
+            gold: {
+              light: '#E2C285',
+              DEFAULT: '#C5A059',
+              bright: '#D4AF37',
+              dark: '#997736',
+              deep: '#7E602B'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            script: ['"Allura"', 'cursive'],
+            sans: ['"Montserrat"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      background-color: #FAF6F0;
+      color: #38322D;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .envelope-perspective {
+      perspective: 1200px;
+    }
+
+    .envelope-flap {
+      transform-origin: top center;
+      transition: transform 1.25s cubic-bezier(0.65, 0, 0.35, 1), z-index 0.2s 0.5s;
+    }
+
+    .envelope-card {
+      transition: transform 1.25s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.8s ease;
+    }
+
+    .opened .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .opened .envelope-card {
+      transform: translateY(-220px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(90, 70, 45, 0.2);
+    }
+
+    .wax-seal {
+      background: radial-gradient(circle at 35% 32%, #fae1a6 0%, #c99f52 48%, #966f28 92%);
+      box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.75),
+                  inset -2px -2px 5px rgba(80, 52, 10, 0.5),
+                  0 10px 22px rgba(153, 119, 54, 0.35);
+    }
+
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    /* Dramatic, elegant text shadow for white text over watercolor background */
+    .hero-overlay-shadow {
+      text-shadow: 0 2px 14px rgba(44, 38, 30, 0.55), 0 1px 3px rgba(0, 0, 0, 0.65);
+    }
+
+    .hero-title-overlay {
+      text-shadow: 0 3px 18px rgba(35, 28, 20, 0.6), 0 1px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Seamless ambient glowing orbs */
+    .ambient-glow {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(80px);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-ivory-warm selection:bg-gold/20 selection:text-espresso relative min-h-screen text-charcoal">
+<!-- Ambient Golden Floating Dust Canvas -->
+<canvas id="ambient-canvas" width="768" height="1024"></canvas>
+<!-- Floating Minimal Audio Controller -->
+<div class="fixed bottom-6 right-6 z-50 flex items-center">
+<button aria-label="Toggle Ambient Audio" class="w-11 h-11 rounded-full bg-ivory/85 backdrop-blur-md text-gold-dark hover:text-espresso shadow-md hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center focus:outline-none border border-white/60" id="musicToggle">
+<span class="text-base font-serif transition-transform duration-300" id="musicIcon">♫</span>
+</button>
+</div>
+<!-- ========================================================= -->
+<!-- 1. OPENING ENVELOPE MODAL (LIGHT, CLEAN, SEAMLESS)       -->
+<!-- ========================================================= -->
+<section class="fixed inset-0 z-50 flex items-center justify-center bg-[#FAF6F0]/96 backdrop-blur-md px-4 transition-opacity duration-1000" id="envelopeOverlay">
+<div class="w-full max-w-sm md:max-w-md envelope-perspective flex flex-col items-center">
+<div class="text-center mb-6">
+<p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-sans font-medium">A Joyful Invitation For You</p>
+<h2 class="font-serif italic text-xl text-espresso mt-1 font-light">Mahmoud &amp; Shrouk</h2>
+</div>
+<!-- Physical Envelope Graphic -->
+<div aria-label="Open Wedding Invitation" class="relative w-full aspect-[4/3] max-w-[360px] cursor-pointer group" id="envelopeWrapper" role="button">
+<div class="absolute inset-x-6 bottom-0 h-8 bg-gold-dark/15 filter blur-xl rounded-full"></div>
+<div class="absolute inset-0 bg-[#F5EFE6] rounded-2xl shadow-xl overflow-hidden">
+<div class="w-full h-full opacity-30 bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:16px_16px]"></div>
+</div>
+<!-- The Invitation Card Inside -->
+<div class="envelope-card absolute inset-x-3 bottom-3 top-4 bg-[#FFFDF9] rounded-xl p-5 flex flex-col justify-between items-center text-center shadow-lg z-10" id="envelopeCard">
+<div class="w-full pt-1">
+<p class="text-[9px] uppercase tracking-[0.35em] text-gold-dark font-sans font-semibold">Wedding Invitation</p>
+</div>
+<div class="py-2">
+<h3 class="font-script text-3xl md:text-4xl text-espresso leading-tight">Mahmoud &amp; Shrouk</h3>
+<p class="font-serif italic text-xs text-warmMuted mt-1">6 / 10 / 2026</p>
+<div class="w-8 h-[1px] bg-gold/40 mx-auto my-2"></div>
+<p class="text-[9px] text-charcoal uppercase tracking-widest font-sans font-medium">Life Eye Resort – Sea Garden</p>
+</div>
+<div class="w-full pt-2 flex items-center justify-between text-[8px] text-gold-dark uppercase tracking-widest font-sans">
+<span class="">Forever together</span>
+<span class="">6 / 10 / 2026</span>
+</div>
+</div>
+<!-- Envelope Front Pockets -->
+<div class="absolute inset-0 z-20 pointer-events-none">
+<div class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-tr from-[#EFE8DC] to-[#FAF6F0] [clip-path:polygon(0_0,0_100%,100%_100%)] rounded-bl-2xl"></div>
+<div class="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-tl from-[#E9E1D3] to-[#FAF6F0] [clip-path:polygon(100%_0,0_100%,100%_100%)] rounded-br-2xl"></div>
+<div class="absolute bottom-0 inset-x-0 h-3/5 bg-gradient-to-t from-[#E4DCCF] via-[#F4EEE4] to-transparent [clip-path:polygon(0_100%,50%_25%,100%_100%)] rounded-b-2xl"></div>
+</div>
+<!-- Envelope Flap -->
+<div class="envelope-flap absolute top-0 inset-x-0 h-1/2 z-30 [clip-path:polygon(0_0,100%_0,50%_100%)] bg-gradient-to-b from-[#F5EFE6] via-[#EFE7DA] to-[#DFD5C4] rounded-t-2xl shadow-sm" id="envelopeFlap">
+<div class="w-full h-full [clip-path:polygon(0_0,100%_0,50%_100%)] bg-white/20"></div>
+</div>
+<!-- Wax Seal -->
+<div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 transition-transform duration-500 group-hover:scale-105 active:scale-95" id="waxSeal">
+<div class="wax-seal w-14 h-14 rounded-full flex flex-col items-center justify-center text-center cursor-pointer">
+<span class="font-serif italic text-white text-base font-bold tracking-tight drop-shadow-sm">M&amp;S</span>
+<span class="text-[6px] tracking-widest uppercase text-white/90 font-sans -mt-0.5">2026</span>
+</div>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="mt-8 px-8 py-3 rounded-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white font-medium text-xs tracking-[0.25em] uppercase shadow-md hover:brightness-105 active:scale-95 transition-all duration-300 flex items-center space-x-2 focus:outline-none" id="openInvitationBtn">
+<span class="">Open Invitation</span>
+<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<p class="text-[11px] text-warmMuted mt-4 tracking-wider uppercase font-sans">Tap envelope or button to begin</p>
+</div>
+</section>
+<!-- ========================================================= -->
+<!-- 2. HERO SECTION: DIRECT BACKGROUND OVERLAY LAYOUT          -->
+<!-- ========================================================= -->
+<header class="relative w-full min-h-[96vh] md:min-h-screen flex items-center justify-center overflow-hidden" id="heroSection">
+<!-- Full Background Illustration with Soft Bottom Gradient Blend -->
+<div class="absolute inset-0 w-full h-full z-0 flex items-center justify-center">
+<img alt="Mahmoud and Shorouk at the scenic seaside rotunda gazebo" class="w-full h-full object-cover object-center max-w-2xl mx-auto brightness-105" src="https://lh3.googleusercontent.com/aida/AEtjO1XRzFNAuFAtj-bdWj4GXPdwtbnd8dE7SXI9WsuC2-DsPw49odglOuVDcNHqmW-GXCILOTCAEKGuDBdSYvW2dicmDmVfNdBMMNs6XGCJebhXZhlaDB4AfyEBcYM0z4EyC9nw7RRx23k2wNP-xWxohf8DjeRnjAd5LIDvv5E4q2sSjqKKeUcOiTTn8wWHdIo8ZOtNK5oV3cR63IwtrbAdhMRxuIAQPjfRwaMvCo97xfOp4yaoxXrvwR9dKBk">
+<!-- Soft ambient gradient overlays for crystal-clear readability & seamless base transition -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#FAF6F0]/80 pointer-events-none"></div>
+<div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#FAF6F0] via-[#FAF6F0]/60 to-transparent pointer-events-none"></div>
+</div>
+<!-- Text Layers Directly Overlaid on the Illustration -->
+<div class="relative z-10 w-full max-w-xl mx-auto px-6 py-16 sm:py-20 flex flex-col items-center text-center justify-between min-h-[96vh] md:min-h-screen select-none">
+<!-- Top Invitation Subhead -->
+<div class="pt-6 sm:pt-10">
+<p class="font-sans text-xs sm:text-sm tracking-[0.38em] uppercase text-white font-medium hero-overlay-shadow max-w-xs mx-auto leading-relaxed">
+        TOGETHER WITH THEIR FAMILIES
+      </p>
+</div>
+<!-- Center: Couple Names & Date Overlay -->
+<div class="my-auto py-8 sm:py-12 flex flex-col items-center">
+<h1 class="font-script text-6xl sm:text-7xl md:text-8xl text-white hero-title-overlay leading-none">
+        Mahmoud
+      </h1>
+<div class="font-script text-4xl sm:text-5xl md:text-6xl text-gold-light my-2 leading-none hero-title-overlay">
+        &amp;
+      </div>
+<h1 class="font-script text-6xl sm:text-7xl md:text-8xl text-white hero-title-overlay leading-none">Shrouk</h1>
+<!-- Elegant Thin Divider with Heart -->
+<div class="flex items-center justify-center space-x-3 w-48 sm:w-56 mx-auto pt-6 pb-2">
+<span class="flex-1 h-[1px] bg-white/75 drop-shadow"></span>
+<span class="text-white text-base leading-none hero-overlay-shadow">♡</span>
+<span class="flex-1 h-[1px] bg-white/75 drop-shadow"></span>
+</div>
+<p class="font-serif italic text-base sm:text-lg text-white/95 hero-overlay-shadow font-light tracking-widest pt-1">
+        Forever together
+      </p>
+<div class="pt-4"><span class="inline-block px-6 py-2 rounded-full bg-espresso/50 backdrop-blur-md border border-gold-light/60 shadow-lg text-gold-light font-serif text-2xl sm:text-3xl md:text-4xl tracking-[0.28em] font-semibold hero-overlay-shadow">6 / 10 / 2026</span></div>
+</div>
+<!-- Bottom: Scroll Down Indicator -->
+<div class="pb-4 sm:pb-8">
+<a class="flex flex-col items-center text-white/90 hover:text-white transition-colors cursor-pointer group" href="#countdownSection">
+<span class="font-serif italic text-sm tracking-widest uppercase mb-2 hero-overlay-shadow font-light">
+          Scroll Down
+        </span>
+<svg class="w-5 h-5 animate-bounce text-white drop-shadow" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</div>
+</header>
+<!-- ========================================================= -->
+<!-- 3. FRAMELESS, CONTINUOUS & SEAMLESS CONTENT FLOW         -->
+<!-- (NO BOXES, NO OUTLINES, NO CARD FRAMES)                  -->
+<!-- ========================================================= -->
+<main class="relative z-10 w-full max-w-xl mx-auto px-6 sm:px-8 py-12 md:py-20 flex flex-col items-center text-center space-y-20 sm:space-y-24">
+<!-- Ambient glowing subtle tints in background for organic richness -->
+<div class="ambient-glow top-40 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-100/30"></div>
+<div class="ambient-glow top-2/4 -left-20 w-80 h-80 bg-orange-50/40"></div>
+<div class="ambient-glow bottom-40 right-0 w-80 h-80 bg-rose-50/40"></div>
+<!-- Monogram Header -->
+<section class="relative z-10 w-full max-w-lg mx-auto flex flex-col items-center text-center px-4 space-y-6" id="quranSection">
+<div class="flex flex-col items-center space-y-2 select-none"><p class="font-serif italic text-xs sm:text-sm tracking-wider text-warmMuted/90 font-light text-center leading-relaxed">Kindly Pause The Music Before<br>Reading The Quran Verse</p><button id="quranPauseBtn" type="button" onclick="document.getElementById('musicToggle')&amp;&amp;document.getElementById('musicToggle').click()" aria-label="Pause Background Music" class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-gold-light/20 via-gold/25 to-gold-dark/20 hover:from-gold-light/35 hover:to-gold-dark/35 border border-gold/50 shadow-sm hover:shadow text-espresso hover:text-gold-deep transition-all duration-300 cursor-pointer active:scale-95 group focus:outline-none"><span class="w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center text-[10px] text-gold-dark group-hover:bg-gold/30 transition-colors shadow-inner font-serif">⏸</span><span class="font-sans text-[10px] tracking-[0.2em] uppercase font-medium text-gold-dark group-hover:text-gold-deep">Pause Audio</span></button></div>
+<p class="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium pt-1">
+IN THE NAME OF THE MOST MERCIFUL
+</p>
+<div class="py-2 px-2 select-text">
+<p class="text-2xl sm:text-3xl md:text-4xl text-espresso font-normal leading-[2] sm:leading-[2.2] tracking-wide" dir="rtl" lang="ar" style="font-family: Amiri, serif;">
+وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+</p>
+</div>
+<div class="flex items-center justify-center space-x-3 w-40 opacity-70 pt-2">
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+<span class="text-gold-dark text-xs">✧</span>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+</div>
+</section>
+<section class="relative z-10 w-full max-w-lg mx-auto flex flex-col items-center text-center px-4 space-y-5" id="gratitudeSection">
+<p class="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium">
+A NOTE OF GRATITUDE
+</p>
+<h2 class="font-script text-4xl sm:text-5xl md:text-6xl text-espresso font-normal leading-tight">
+Dear Family and Friends ...
+</h2>
+<div class="space-y-4 pt-1 max-w-md mx-auto">
+<p class="font-serif italic text-base sm:text-lg text-charcoal/90 leading-relaxed font-light">
+As we get ready to say “I do,” we feel grateful for the wonderful people in our lives.
+</p>
+<p class="font-serif italic text-base sm:text-lg text-charcoal/90 leading-relaxed font-light">
+Your support means the world to us, and we would be honored to have you with us as we begin our new life together.
+</p>
+</div>
+<div class="flex items-center justify-center space-x-3 w-40 opacity-70 pt-2">
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+<span class="text-gold-dark text-xs font-serif">❦</span>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+</div>
+</section><div class="relative z-10 flex flex-col items-center">
+<span class="font-serif italic text-3xl sm:text-4xl text-gold-dark font-light tracking-widest">M &amp; S</span>
+<span class="text-[10px] uppercase tracking-[0.3em] text-warmMuted mt-1 font-sans">The Wedding</span>
+</div>
+<!-- ======================================================= -->
+<!-- SECTION: COUNTDOWN                                      -->
+<!-- ======================================================= -->
+<section class="relative z-10 w-full" id="countdownSection">
+<h2 class="font-serif uppercase tracking-[0.3em] text-xs sm:text-sm text-gold-dark mb-6 font-medium">
+        Counting Down The Moments
+      </h2>
+<!-- Pure Frameless Minimal Grid -->
+<div class="grid grid-cols-4 gap-4 sm:gap-6 max-w-md mx-auto">
+<!-- Days -->
+<div class="flex flex-col items-center">
+<span class="font-serif text-3xl sm:text-4xl md:text-5xl text-espresso font-light leading-none" id="timerDays">14</span>
+<span class="text-[10px] uppercase tracking-[0.25em] text-warmMuted font-sans mt-2">Days</span>
+</div>
+<!-- Hours -->
+<div class="flex flex-col items-center">
+<span class="font-serif text-3xl sm:text-4xl md:text-5xl text-espresso font-light leading-none" id="timerHours">18</span>
+<span class="text-[10px] uppercase tracking-[0.25em] text-warmMuted font-sans mt-2">Hours</span>
+</div>
+<!-- Minutes -->
+<div class="flex flex-col items-center">
+<span class="font-serif text-3xl sm:text-4xl md:text-5xl text-espresso font-light leading-none" id="timerMinutes">47</span>
+<span class="text-[10px] uppercase tracking-[0.25em] text-warmMuted font-sans mt-2">Mins</span>
+</div>
+<!-- Seconds -->
+<div class="flex flex-col items-center">
+<span class="font-serif text-3xl sm:text-4xl md:text-5xl text-gold-dark font-light leading-none" id="timerSeconds">21</span>
+<span class="text-[10px] uppercase tracking-[0.25em] text-warmMuted font-sans mt-2">Secs</span>
+</div>
+</div>
+<p class="text-center text-sm text-gold-dark mt-6 italic font-serif hidden" id="timerMessage">
+        The celebration is today!
+      </p>
+</section>
+<!-- Seamless Subtle Divider -->
+<div class="flex items-center justify-center space-x-3 w-40 opacity-70">
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+<span class="text-gold-dark text-xs">✧</span>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+</div>
+<!-- ======================================================= -->
+<!-- SECTION: WELCOME                                        -->
+<!-- ======================================================= -->
+<section class="relative z-10 max-w-lg mx-auto">
+<h2 class="font-serif text-3xl sm:text-4xl text-espresso font-normal mb-5 tracking-tight">
+        Welcome!
+      </h2>
+<p class="font-serif italic text-lg sm:text-xl text-charcoal/90 leading-relaxed font-light px-2 sm:px-4">
+        “From the very first moment, we knew our story was meant to be celebrated. We would be honoured to have you with us as we begin this new chapter — surrounded by the people we love most.”
+      </p>
+</section>
+<!-- Seamless Subtle Divider -->
+<div class="flex items-center justify-center space-x-3 w-40 opacity-70">
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+<span class="text-gold-dark text-xs font-serif">❦</span>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+</div>
+<!-- ======================================================= -->
+<!-- SECTION: WHEN & WHERE                                   -->
+<!-- ======================================================= -->
+<section class="relative z-10 max-w-md mx-auto w-full"><h2 class="font-serif text-3xl sm:text-4xl text-espresso font-normal mb-6 tracking-tight">When &amp; Where</h2><div class="space-y-8"><div><p class="text-[10px] uppercase tracking-[0.3em] text-gold-dark font-sans font-semibold mb-1">Date &amp; Time</p><p class="font-serif text-2xl sm:text-3xl text-espresso font-light">6 / 10 / 2026</p><p class="font-serif italic text-sm text-warmMuted mt-0.5">Tuesday • 7:00 PM</p></div><div class="w-12 h-[1px] bg-gold/30 mx-auto"></div><div class="space-y-4"><p class="text-[10px] uppercase tracking-[0.3em] text-gold-dark font-sans font-semibold mb-1">Venue</p><div class="relative mx-auto max-w-sm rounded-2xl overflow-hidden shadow-md border border-gold/30 bg-[#FFFDF9] p-1.5 group"><div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden"><img alt="Life Eye Resort Sea Garden Architectural Sketch Illustration" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt43tLs60Fsa2FZBNTh9v_040bgC_gAMru8QWEVx6KquIBk4xatduNkxQB-tX5mAOxFpFXkD-NIR7hnK_RMGTF5OWHg3aNmnRVVerVb8s1sOp54dE3Y98wUwePBZ0LzgvVm_krbD6pAxitRuuyO924ZnE81MLjjK4nkVSaQbGzC9UmHduAYtEr7BsKUt2wRwfQArqg5GMo2ZE2rHIwDWWsL0EJxov0uBSi9CbaVR6a4bu2LRZfRpxK"><div class="absolute inset-0 bg-gradient-to-t from-[#2C2825]/40 via-transparent to-transparent pointer-events-none"></div><div class="absolute bottom-3 inset-x-0 text-center"><span class="text-xs text-white/95 font-serif italic tracking-wider drop-shadow-sm">Sea Garden Ceremony &amp; Reception</span></div></div></div><div class="pt-1"><p class="font-serif text-2xl sm:text-3xl text-espresso font-light">Life Eye Resort</p><p class="font-serif italic text-base sm:text-lg text-charcoal/80 mt-1">Sea Garden</p></div></div><div class="pt-2"><a class="inline-flex items-center justify-center space-x-2 px-8 py-3 rounded-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white hover:brightness-105 shadow-md hover:shadow-lg transition-all duration-300 font-sans text-xs uppercase tracking-[0.25em] font-medium group" href="https://maps.google.com/?q=Life+Eye+Resort+Sea+Garden" id="googleMapsBtn" rel="noopener noreferrer" target="_blank"><span class="">Google Maps</span><svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a></div></div></section>
+<!-- Seamless Subtle Divider -->
+<div class="flex items-center justify-center space-x-3 w-40 opacity-70">
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+<span class="text-gold-dark text-xs">✧</span>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+</div>
+<!-- ======================================================= -->
+<!-- SECTION: GIFTS                                          -->
+<!-- ======================================================= -->
+<section class="relative z-10 max-w-md mx-auto">
+<h2 class="font-serif text-3xl sm:text-4xl text-espresso font-normal mb-4 tracking-tight">
+        Gifts
+      </h2>
+<p class="font-sans text-xs sm:text-sm uppercase tracking-[0.25em] text-charcoal/90 font-medium leading-relaxed px-4">
+        YOUR PRESENCE IS THE GREATEST GIFT WE COULD RECEIVE.
+      </p>
+</section>
+<!-- Seamless Subtle Divider -->
+<div class="flex items-center justify-center space-x-3 w-40 opacity-70">
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+<span class="text-gold-dark text-xs font-serif">❦</span>
+<span class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></span>
+</div>
+<!-- ======================================================= -->
+<!-- SECTION: LEAVE A MESSAGE & RSVP (FRAMELESS & ELEGANT)   -->
+<!-- ======================================================= -->
+<section class="relative z-10 w-full max-w-md mx-auto text-left">
+<div class="text-center mb-8">
+<h2 class="font-serif text-3xl sm:text-4xl text-espresso font-normal tracking-tight">
+          Leave A Message
+        </h2>
+<p class="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-gold-dark font-sans font-medium mt-2">
+          SHARE YOUR LOVE, WISHES, OR A NOTE FOR THE HAPPY COUPLE!
+        </p>
+</div>
+<form class="space-y-6" id="guestbookForm">
+<!-- Field 1: Name (Borderless underline style) -->
+<div>
+<label class="block text-[10px] font-sans uppercase tracking-[0.25em] text-gold-dark font-semibold mb-2" for="guestName">
+            YOUR NAME *
+          </label>
+<input class="w-full bg-transparent border-0 border-b border-gold/40 px-1 py-2.5 text-base font-serif text-espresso placeholder:text-warmMuted/50 focus:border-gold-dark focus:ring-0 transition-colors" id="guestName" name="guestName" placeholder="Enter your name" required="" type="text">
+</div>
+<!-- Field 2: Congratulation Message -->
+<div>
+<label class="block text-[10px] font-sans uppercase tracking-[0.25em] text-gold-dark font-semibold mb-2" for="guestMessage">
+            WRITE YOUR CONGRATULATION *
+          </label>
+<textarea class="w-full bg-transparent border-0 border-b border-gold/40 px-1 py-2.5 text-base font-serif text-espresso placeholder:text-warmMuted/50 focus:border-gold-dark focus:ring-0 transition-colors resize-none" id="guestMessage" name="guestMessage" placeholder="Write your wishes here..." required="" rows="3"></textarea>
+</div>
+<!-- Field 3: Attendance RSVP -->
+<div class="pt-2">
+<label class="block text-[10px] font-sans uppercase tracking-[0.25em] text-gold-dark font-semibold mb-3 text-center sm:text-left">
+            WILL YOU BE ATTENDING? *
+          </label>
+<div class="space-y-2.5">
+<label class="flex items-center space-x-3 cursor-pointer group py-1.5 px-2 rounded-lg hover:bg-gold/5 transition-colors">
+<input checked="" class="text-gold-dark focus:ring-0 border-gold/50 bg-transparent" name="attending" type="radio" value="yes">
+<span class="text-sm font-serif text-espresso group-hover:text-gold-deep transition-colors">
+                Joyfully Accepts / Yes, I will attend
+              </span>
+</label>
+<label class="flex items-center space-x-3 cursor-pointer group py-1.5 px-2 rounded-lg hover:bg-gold/5 transition-colors">
+<input class="text-gold-dark focus:ring-0 border-gold/50 bg-transparent" name="attending" type="radio" value="no">
+<span class="text-sm font-serif text-espresso group-hover:text-gold-deep transition-colors">
+                Regretfully Declines / Sorry, I cannot make it
+              </span>
+</label>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-6 text-center">
+<button class="w-full py-3.5 px-8 rounded-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white font-medium text-xs tracking-[0.25em] uppercase shadow-md hover:brightness-105 active:scale-95 transition-all duration-300 focus:outline-none" type="submit">
+            Send Wishes &amp; RSVP
+          </button>
+</div>
+<!-- Feedback Alert -->
+<div class="hidden py-4 text-center text-sm font-serif italic text-gold-deep" id="formConfirmation">
+          Thank you so much! Your wishes and RSVP have been warmly received.
+        </div>
+</form>
+</section>
+<!-- Footer Signature -->
+<footer class="pt-10 pb-4 text-center">
+<p class="font-script text-3xl sm:text-4xl text-gold-dark">Mahmoud &amp; Shrouk</p>
+<p class="font-serif italic text-xs text-warmMuted mt-1 tracking-widest">With Love • 6 / 10 / 2026</p>
+</footer>
+</main>
+<!-- ========================================================= -->
+<!-- JAVASCRIPT: LOGIC & AUDIO                                 -->
+<!-- ========================================================= -->
+
+<!-- Supabase integration (ESM module) -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  const SUPABASE_URL = 'https://eoksgtbifexilmpfewpa.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_h1drJwBq2F8xtoXj18WVAg_nIGVHTKQ';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('guestbookForm');
+  const confirm = document.getElementById('formConfirmation');
+  
+  if (form) {
+    let errorBox = document.getElementById('formError');
+    if (!errorBox) {
+      errorBox = document.createElement('div');
+      errorBox.id = 'formError';
+      errorBox.className = 'hidden py-4 text-center text-sm font-serif italic text-red-600';
+      form.appendChild(errorBox);
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      confirm.classList.add('hidden');
+      errorBox.classList.add('hidden');
+
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent.trim();
+      submitBtn.textContent = 'Sending...';
+
+      const name = document.getElementById('guestName').value.trim();
+      const message = document.getElementById('guestMessage').value.trim();
+      const attending = form.querySelector('input[name="attending"]:checked').value;
+
+      const { error } = await supabase
+        .from('guest_messages')
+        .insert([{ name, message, attending }]);
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      if (error) {
+        console.error("Supabase Error:", error);
+        errorBox.innerText = 'Error: ' + error.message;
+        errorBox.classList.remove('hidden');
+        setTimeout(() => {
+          errorBox.classList.add('hidden');
+          errorBox.innerText = '';
+        }, 8000);
+        return;
+      }
+
+      confirm.classList.remove('hidden');
+      form.reset();
+      setTimeout(() => confirm.classList.add('hidden'), 6000);
+    });
+  }
+</script>
+
+<script>
+    window.weddingConfig = {
+      targetDateTime: "2026-10-06T19:00:00+02:00",
+      googleMapsUrl: "https://maps.google.com/?q=Life+Eye+Resort+Sea+Garden"
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const gMapsBtn = document.getElementById('googleMapsBtn');
+      if (gMapsBtn && window.weddingConfig.googleMapsUrl) {
+        gMapsBtn.href = window.weddingConfig.googleMapsUrl;
+      }
+    });
+
+    // ── Real MP3 audio ──────────────────────────────────────────────
+    const bgAudio = new Audio('assests/zaffa.mp3');
+    bgAudio.loop = true;
+    bgAudio.volume = 0.5;
+    let isPlayingAmbient = false;
+
+    // Keep a tiny AudioContext only for the envelope chime
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+    }
+
+    function playChimeTone() {
+      try {
+        initAudio();
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+          gain.gain.setValueAtTime(0.0001, now + idx * 0.12);
+          gain.gain.linearRampToValueAtTime(0.05, now + idx * 0.12 + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.12 + 1.2);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.12);
+          osc.stop(now + idx * 0.12 + 1.3);
+        });
+      } catch (e) { }
+    }
+
+    const musicBtn = document.getElementById('musicToggle');
+    const musicIcon = document.getElementById('musicIcon');
+
+    musicBtn.addEventListener('click', () => {
+      if (!isPlayingAmbient) {
+        bgAudio.play().then(() => {
+          isPlayingAmbient = true;
+          musicIcon.innerText = '⏸';
+          musicBtn.classList.add('border-gold', 'text-gold-dark', 'animate-pulse');
+        }).catch(() => { });
+      } else {
+        bgAudio.pause();
+        isPlayingAmbient = false;
+        musicIcon.innerText = '♫';
+        musicBtn.classList.remove('animate-pulse');
+      }
+    });
+
+    // Envelope Reveal Animation
+    const envelopeWrapper = document.getElementById('envelopeWrapper');
+    const openInvitationBtn = document.getElementById('openInvitationBtn');
+    const envelopeOverlay = document.getElementById('envelopeOverlay');
+    let isEnvelopeOpened = false;
+
+    function openEnvelope() {
+      if (isEnvelopeOpened) return;
+      isEnvelopeOpened = true;
+
+      envelopeWrapper.classList.add('opened');
+      playChimeTone();
+
+      // Auto-play music on first user gesture
+      if (typeof bgAudio !== 'undefined') {
+        bgAudio.play().then(() => {
+          isPlayingAmbient = true;
+          musicIcon.innerText = '⏸';
+          musicBtn.classList.add('border-gold', 'text-gold-dark', 'animate-pulse');
+        }).catch((err) => console.log("Audio play blocked:", err));
+      }
+
+      setTimeout(() => {
+        envelopeOverlay.style.opacity = '0';
+        envelopeOverlay.style.pointerEvents = 'none';
+        setTimeout(() => {
+          envelopeOverlay.classList.add('hidden');
+        }, 1000);
+      }, 1400);
+    }
+
+    envelopeWrapper.addEventListener('click', openEnvelope);
+    openInvitationBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openEnvelope();
+    });
+
+    // Countdown Timer (Target: 6 / 10 / 2026)
+    function updateCountdown() {
+      const target = new Date(window.weddingConfig.targetDateTime).getTime();
+      const now = new Date().getTime();
+      const difference = target - now;
+
+      const daysEl = document.getElementById('timerDays');
+      const hoursEl = document.getElementById('timerHours');
+      const minutesEl = document.getElementById('timerMinutes');
+      const secondsEl = document.getElementById('timerSeconds');
+      const messageEl = document.getElementById('timerMessage');
+
+      if (difference <= 0) {
+        if (daysEl) daysEl.innerText = '00';
+        if (hoursEl) hoursEl.innerText = '00';
+        if (minutesEl) minutesEl.innerText = '00';
+        if (secondsEl) secondsEl.innerText = '00';
+        if (messageEl) messageEl.classList.remove('hidden');
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+      if (minutesEl) minutesEl.innerText = String(minutes).padStart(2, '0');
+      if (secondsEl) secondsEl.innerText = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Canvas Ambient Golden Particles
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class AmbientParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height - 20;
+        this.size = Math.random() * 2 + 0.8;
+        this.speedY = Math.random() * 0.3 + 0.15;
+        this.speedX = (Math.random() - 0.5) * 0.2;
+        this.opacity = Math.random() * 0.4 + 0.12;
+        this.angle = Math.random() * Math.PI * 2;
+        this.angularSpeed = (Math.random() - 0.5) * 0.02;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin(this.angle) * 0.18;
+        this.angle += this.angularSpeed;
+        if (this.y > height + 20) {
+          this.reset();
+          this.y = -10;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(197, 160, 89, ${this.opacity})`;
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = '#D4AF37';
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    const count = window.innerWidth < 768 ? 20 : 32;
+    for (let i = 0; i < count; i++) {
+      particles.push(new AmbientParticle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let p of particles) {
+        p.update();
+        p.draw();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animateParticles();
+    }
+  </script>
+</body></html>
