@@ -115,6 +115,22 @@
         scroll-behavior: auto !important;
       }
     }
+    .animate-shine {
+      background: linear-gradient(120deg, #FFFFFF 30%, #D4AF37 50%, #FFFFFF 70%);
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: -200% center; }
+    }
+
+    .date-glow {
+      filter: drop-shadow(0 2px 4px rgba(44, 38, 30, 0.8)) drop-shadow(0 0 14px rgba(44, 38, 30, 0.6));
+    }
   </style>
 </head>
 <body class="bg-ivory-warm selection:bg-gold/20 selection:text-espresso relative min-h-screen text-charcoal">
@@ -133,7 +149,7 @@
 <div class="w-full max-w-sm md:max-w-md envelope-perspective flex flex-col items-center">
 <div class="text-center mb-6">
 <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-sans font-medium">A Joyful Invitation For You</p>
-<h2 class="font-serif italic text-xl text-espresso mt-1 font-light">Mahmoud &amp; Shrouk</h2>
+<h2 class="font-serif italic text-xl text-white drop-shadow-md mt-1 font-light">Mahmoud &amp; Shrouk</h2>
 </div>
 <!-- Physical Envelope Graphic -->
 <div aria-label="Open Wedding Invitation" class="relative w-full aspect-[4/3] max-w-[360px] cursor-pointer group" id="envelopeWrapper" role="button">
@@ -191,7 +207,7 @@
 <header class="relative w-full min-h-[96vh] md:min-h-screen flex items-center justify-center overflow-hidden" id="heroSection">
 <!-- Full Background Illustration with Soft Bottom Gradient Blend -->
 <div class="absolute inset-0 w-full h-full z-0 flex items-center justify-center">
-<img alt="Mahmoud and Shorouk at the scenic seaside rotunda gazebo" class="w-full h-full object-cover object-center max-w-2xl mx-auto brightness-105" src="https://lh3.googleusercontent.com/aida/AEtjO1XRzFNAuFAtj-bdWj4GXPdwtbnd8dE7SXI9WsuC2-DsPw49odglOuVDcNHqmW-GXCILOTCAEKGuDBdSYvW2dicmDmVfNdBMMNs6XGCJebhXZhlaDB4AfyEBcYM0z4EyC9nw7RRx23k2wNP-xWxohf8DjeRnjAd5LIDvv5E4q2sSjqKKeUcOiTTn8wWHdIo8ZOtNK5oV3cR63IwtrbAdhMRxuIAQPjfRwaMvCo97xfOp4yaoxXrvwR9dKBk">
+<img alt="Mahmoud and Shorouk at the scenic seaside rotunda gazebo" class="w-full h-full object-cover object-center max-w-2xl mx-auto brightness-105" src="assests/hero-bg.jpg">
 <!-- Soft ambient gradient overlays for crystal-clear readability & seamless base transition -->
 <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-[#FAF6F0]/80 pointer-events-none"></div>
 <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#FAF6F0] via-[#FAF6F0]/60 to-transparent pointer-events-none"></div>
@@ -222,7 +238,7 @@
 <p class="font-serif italic text-base sm:text-lg text-white/95 hero-overlay-shadow font-light tracking-widest pt-1">
         Forever together
       </p>
-<div class="pt-4"><span class="inline-block px-6 py-2 rounded-full bg-espresso/50 backdrop-blur-md border border-gold-light/60 shadow-lg text-gold-light font-serif text-2xl sm:text-3xl md:text-4xl tracking-[0.28em] font-semibold hero-overlay-shadow">6 / 10 / 2026</span></div>
+<div class="pt-4"><span class="animate-shine date-glow font-serif text-2xl sm:text-3xl md:text-4xl tracking-[0.28em] font-black">6 / 10 / 2026</span></div>
 </div>
 <!-- Bottom: Scroll Down Indicator -->
 <div class="pb-4 sm:pb-8">
@@ -241,7 +257,7 @@
 <!-- 3. FRAMELESS, CONTINUOUS & SEAMLESS CONTENT FLOW         -->
 <!-- (NO BOXES, NO OUTLINES, NO CARD FRAMES)                  -->
 <!-- ========================================================= -->
-<main class="relative z-10 w-full max-w-xl mx-auto px-6 sm:px-8 py-12 md:py-20 flex flex-col items-center text-center space-y-20 sm:space-y-24">
+<main class="relative z-10 w-full max-w-xl mx-auto px-6 sm:px-8 pt-4 pb-12 md:pt-6 md:pb-20 flex flex-col items-center text-center space-y-20 sm:space-y-24">
 <!-- Ambient glowing subtle tints in background for organic richness -->
 <div class="ambient-glow top-40 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-100/30"></div>
 <div class="ambient-glow top-2/4 -left-20 w-80 h-80 bg-orange-50/40"></div>

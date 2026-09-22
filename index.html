@@ -11,6 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap"
     rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
@@ -304,6 +305,53 @@
         <span class="text-gold-dark text-sm">&#10086;</span>
         <span class="h-[1px] w-14 bg-gradient-to-l from-transparent to-gold/60"></span>
       </div>
+
+      <section class="relative z-10 max-w-md mx-auto mb-8 sm:mb-10" id="quranSection">
+        <div class="bg-ivory/95 border border-gold/30 rounded-2xl p-6 sm:p-7 shadow-sm">
+          <div class="flex flex-col items-center space-y-2 select-none mb-4">
+            <p class="font-serif italic text-xs sm:text-sm tracking-wider text-warmMuted/90 font-light text-center leading-relaxed">Kindly Pause The Music Before<br>Reading The Quran Verse</p>
+            <button id="quranPauseBtn" type="button" onclick="document.getElementById('musicToggle')&amp;&amp;document.getElementById('musicToggle').click()" aria-label="Pause Background Music" class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-gold-light/20 via-gold/25 to-gold-dark/20 hover:from-gold-light/35 hover:to-gold-dark/35 border border-gold/50 shadow-sm hover:shadow text-espresso hover:text-gold-deep transition-all duration-300 cursor-pointer active:scale-95 group focus:outline-none">
+              <span class="w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center text-[10px] text-gold-dark group-hover:bg-gold/30 transition-colors shadow-inner font-serif">⏸</span>
+              <span class="font-sans text-[10px] tracking-[0.2em] uppercase font-medium text-gold-dark group-hover:text-gold-deep">Pause Audio</span>
+            </button>
+          </div>
+          <p class="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium pt-1 mb-3">
+            IN THE NAME OF THE MOST MERCIFUL
+          </p>
+          <div class="py-2 px-2 select-text">
+            <p class="text-2xl sm:text-3xl text-espresso font-normal leading-[2] sm:leading-[2.2] tracking-wide" dir="rtl" lang="ar" style="font-family: 'Amiri', serif;">
+              وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="relative z-10 flex items-center justify-center space-x-3 my-7 sm:my-9">
+        <span class="h-[1px] w-12 bg-gradient-to-r from-transparent to-gold/50"></span>
+        <span class="text-gold-dark text-xs">&#10023;</span>
+        <span class="h-[1px] w-12 bg-gradient-to-l from-transparent to-gold/50"></span>
+      </div>
+
+      <section class="relative z-10 max-w-md mx-auto mb-8 sm:mb-10" id="gratitudeSection">
+        <h2 class="font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">A NOTE OF GRATITUDE</h2>
+        <div class="bg-ivory/95 border border-gold/30 rounded-2xl p-6 sm:p-7 shadow-sm">
+          <h3 class="font-script text-4xl sm:text-5xl text-espresso font-normal leading-tight mb-4">Dear Family and Friends ...</h3>
+          <div class="space-y-4 pt-1 max-w-md mx-auto">
+            <p class="font-serif italic text-base sm:text-lg text-charcoal/90 leading-relaxed font-light">
+              As we get ready to say &ldquo;I do,&rdquo; we feel grateful for the wonderful people in our lives.
+            </p>
+            <p class="font-serif italic text-base sm:text-lg text-charcoal/90 leading-relaxed font-light">
+              Your support means the world to us, and we would be honored to have you with us as we begin our new life together.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="relative z-10 flex items-center justify-center space-x-3 my-7 sm:my-9">
+        <span class="h-[1px] w-14 bg-gradient-to-r from-transparent to-gold/60"></span>
+        <span class="text-gold-dark text-sm">&#10086;</span>
+        <span class="h-[1px] w-14 bg-gradient-to-l from-transparent to-gold/60"></span>
+      </div>
       <section class="relative z-10 max-w-md mx-auto mb-8 sm:mb-10">
         <h2 class="font-serif uppercase tracking-[0.25em] text-lg sm:text-xl text-espresso mb-4 font-normal">Countdown
         </h2>
@@ -356,14 +404,26 @@
         <h2 class="font-serif text-2xl sm:text-3xl text-espresso font-normal mb-3">When &amp; Where</h2>
         <div class="bg-ivory/95 border border-gold/35 rounded-2xl p-6 sm:p-7 shadow-sm">
           <div class="mb-4">
-            <p class="text-[11px] uppercase tracking-[0.25em] text-gold-dark font-sans font-semibold mb-1">Date</p>
+            <p class="text-[11px] uppercase tracking-[0.25em] text-gold-dark font-sans font-semibold mb-1">Date &amp; Time</p>
             <p class="font-serif text-2xl text-espresso font-medium">6 / 10 / 2026</p>
+            <p class="font-serif italic text-sm text-warmMuted mt-0.5">Tuesday &bull; 7:00 PM</p>
           </div>
           <div class="w-12 h-[1px] bg-gold/30 mx-auto my-4"></div>
           <div class="mb-6">
-            <p class="text-[11px] uppercase tracking-[0.25em] text-gold-dark font-sans font-semibold mb-1">Venue</p>
-            <p class="font-serif text-xl sm:text-2xl text-espresso font-normal leading-snug">Life Eye Resort &ndash; Sea
-              Garden</p>
+            <p class="text-[11px] uppercase tracking-[0.25em] text-gold-dark font-sans font-semibold mb-3">Venue</p>
+            
+            <div class="relative mx-auto max-w-sm rounded-2xl overflow-hidden shadow-sm border border-gold/30 bg-[#FFFDF9] p-1.5 group mb-4">
+              <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
+                <img alt="Life Eye Resort Sea Garden Venue" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" src="assests/venue.jpg">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#2C2825]/40 via-transparent to-transparent pointer-events-none"></div>
+                <div class="absolute bottom-3 inset-x-0 text-center">
+                  <span class="text-xs text-white/95 font-serif italic tracking-wider drop-shadow-sm">Sea Garden Ceremony &amp; Reception</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="font-serif text-xl sm:text-2xl text-espresso font-normal leading-snug">Life Eye Resort</p>
+            <p class="font-serif italic text-base sm:text-lg text-charcoal/80 mt-1">Sea Garden</p>
           </div>
           <div class="pt-1">
             <a class="inline-flex items-center justify-center space-x-2 px-7 py-3 rounded-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white hover:brightness-105 shadow-seal transition-all duration-300 font-sans text-xs uppercase tracking-[0.2em] font-medium group"
